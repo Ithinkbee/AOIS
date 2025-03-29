@@ -1,0 +1,80 @@
+from convert import *
+from arithmetics import *
+from global_values import *
+
+def display_menu():
+    print("\nSelect operation:")
+    print("1. Integer operations")
+    print("2. Floating-point operations")
+    print("3. Exit")
+
+def integer_operations():
+    try:
+        num1 = int(input("Enter first integer: "))
+        num2 = int(input("Enter second integer: "))
+        bits = int(input(f"Enter bit length (default {BIT_LENGTH_DEFAULT}): ") or BIT_LENGTH_DEFAULT)
+
+        print("\nNumber representations:")
+        print(f"{num1}:")
+        print(f"  Sign-magnitude: {to_direct_code(num1)}")
+        print(f"  Ones' complement: {to_inverse_code(num1)}")
+        print(f"  Two's complement: {to_complement_code(num1)}")
+        
+        print(f"\n{num2}:")
+        print(f"  Sign-magnitude: {to_direct_code(num2)}")
+        print(f"  Ones' complement: {to_inverse_code(num2)}")
+        print(f"  Two's complement: {to_complement_code(num2)}")
+
+        print("\nOperation results:")
+        print(f"Addition: {add_complement(num1, num2, bits)}")
+        print(f"Subtraction: {subtract_complement(num1, num2, bits)}")
+        print(f"Multiplication: {multiply_direct(num1, num2, bits)}")
+        
+        if num2 != 0:
+            print(f"Division: {divide_direct(num1, num2, FRACTIONAL_PRECISION, bits)}")
+        else:
+            print("Division by zero error!")
+            
+    except ValueError as e:
+        print(f"Error: {e}")
+
+def float_operations():
+    try:
+        num1 = float(input("Enter first number: "))
+        num2 = float(input("Enter second number: "))
+
+        print("\nIEEE-754 representation:")
+        ieee1 = float_to_ieee_754(num1)
+        ieee2 = float_to_ieee_754(num2)
+        print(f"{num1} = {ieee1}")
+        print(f"{num2} = {ieee2}")
+
+        ieee_sum = add_ieee754_simple(num1, num2)
+        decimal_sum = ieee754_to_float(ieee_sum)
+        
+        print("\nAddition result:")
+        print(f"Binary: {ieee_sum}")
+        print(f"Decimal: {decimal_sum}")
+        print(f"Verification: {num1 + num2}")
+
+    except Exception as e:
+        print(f"Error: {e}")
+
+def main():
+    print("Binary Calculator v1.0")
+    while True:
+        display_menu()
+        choice = input("Your choice (1-3): ").strip()
+        
+        if choice == "1":
+            integer_operations()
+        elif choice == "2":
+            float_operations()
+        elif choice == "3":
+            print("Exiting program.")
+            break
+        else:
+            print("Invalid input. Please try again.")
+
+if __name__ == "__main__":
+    main()
