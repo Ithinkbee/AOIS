@@ -12,23 +12,34 @@ def integer_operations():
     try:
         num1 = int(input("Enter first integer: "))
         num2 = int(input("Enter second integer: "))
-        bits = int(input(f"Enter bit length (default {BIT_LENGTH_DEFAULT}): ") or BIT_LENGTH_DEFAULT)
+        bits = int(BIT_LENGTH_DEFAULT)
 
         print("\nNumber representations:")
         print(f"{num1}:")
-        print(f"  Sign-magnitude: {to_direct_code(num1)}")
-        print(f"  Ones' complement: {to_inverse_code(num1)}")
-        print(f"  Two's complement: {to_complement_code(num1)}")
+        print(f"  Direct: {to_direct_code(num1)}")
+        print(f"  Inverse: {to_inverse_code(num1)}")
+        print(f"  Complement: {to_complement_code(num1)}")
         
         print(f"\n{num2}:")
-        print(f"  Sign-magnitude: {to_direct_code(num2)}")
-        print(f"  Ones' complement: {to_inverse_code(num2)}")
-        print(f"  Two's complement: {to_complement_code(num2)}")
+        print(f"  Direct: {to_direct_code(num2)}")
+        print(f"  Inverse: {to_inverse_code(num2)}")
+        print(f"  Complement: {to_complement_code(num2)}")
 
         print("\nOperation results:")
         print(f"Addition: {add_complement(num1, num2, bits)}")
+        print(f"  Direct: {to_direct_code(add_complement(num1, num2, bits))}")
+        print(f"  Inverse: {to_inverse_code(add_complement(num1, num2, bits))}")
+        print(f"  Complement: {to_complement_code(add_complement(num1, num2, bits))}")
+
         print(f"Subtraction: {subtract_complement(num1, num2, bits)}")
+        print(f"  Direct: {to_direct_code(subtract_complement(num1, num2, bits))}")
+        print(f"  Inverse: {to_inverse_code(subtract_complement(num1, num2, bits))}")
+        print(f"  Complement: {to_complement_code(subtract_complement(num1, num2, bits))}")
+
         print(f"Multiplication: {multiply_direct(num1, num2, bits)}")
+        print(f"  Direct: {to_direct_code(multiply_direct(num1, num2, bits))}")
+        print(f"  Inverse: {to_inverse_code(multiply_direct(num1, num2, bits))}")
+        print(f"  Complement: {to_complement_code(multiply_direct(num1, num2, bits))}")
         
         if num2 != 0:
             print(f"Division: {divide_direct(num1, num2, FRACTIONAL_PRECISION, bits)}")
