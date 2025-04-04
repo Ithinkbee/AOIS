@@ -26,25 +26,31 @@ def integer_operations():
         print(f"  Complement: {to_complement_code(num2)}")
 
         print("\nOperation results:")
-        print(f"Addition: {add_complement(num1, num2, bits)}")
+        print(f"\nAddition: {add_complement(num1, num2, bits)}")
         print(f"  Direct: {to_direct_code(add_complement(num1, num2, bits))}")
         print(f"  Inverse: {to_inverse_code(add_complement(num1, num2, bits))}")
         print(f"  Complement: {to_complement_code(add_complement(num1, num2, bits))}")
 
-        print(f"Subtraction: {subtract_complement(num1, num2, bits)}")
+        print(f"\nSubtraction: {subtract_complement(num1, num2, bits)}")
         print(f"  Direct: {to_direct_code(subtract_complement(num1, num2, bits))}")
         print(f"  Inverse: {to_inverse_code(subtract_complement(num1, num2, bits))}")
         print(f"  Complement: {to_complement_code(subtract_complement(num1, num2, bits))}")
 
-        print(f"Multiplication: {multiply_direct(num1, num2, bits)}")
-        print(f"  Direct: {to_direct_code(multiply_direct(num1, num2, bits))}")
-        print(f"  Inverse: {to_inverse_code(multiply_direct(num1, num2, bits))}")
-        print(f"  Complement: {to_complement_code(multiply_direct(num1, num2, bits))}")
+        if (num1 * num2) >= 128:
+            print("\nMultiplication: Sorry, but the result is more than 128")
+        elif (num1 * num2) <= -128:
+            print("\nMultiplication: Sorry, but the result is less than -128")
+        else:
+            print(f"\nMultiplication: {multiply_direct(num1, num2, bits)}")
+            print(f"  Direct: {to_direct_code(multiply_direct(num1, num2, bits))}")
+            print(f"  Inverse: {to_inverse_code(multiply_direct(num1, num2, bits))}")
+            print(f"  Complement: {to_complement_code(multiply_direct(num1, num2, bits))}")
         
         if num2 != 0:
-            print(f"Division: {divide_direct(num1, num2, FRACTIONAL_PRECISION, bits)}")
+            print(f"\nDivision: {divide_direct(num1, num2)}")
+            print(f"Check: {binary_fixed_to_decimal(divide_direct(num1, num2))}")
         else:
-            print("Division by zero error!")
+            print("\nDivision by zero error!")
             
     except ValueError as e:
         print(f"Error: {e}")

@@ -58,6 +58,26 @@ def to_complement_code(n: int) -> str:
     return inverse_code[0] + complement_part
 
 
+def binary_fixed_to_decimal(binary_str: str) -> float:
+    if '.' not in binary_str:
+        raise ValueError("Wrong format!")
+
+    sign_bit = binary_str[0]  
+    integer_part = binary_str[1:8] 
+    fractional_part = binary_str[9:]  
+
+    integer_value = int(integer_part, 2)
+
+    fractional_value = sum(int(bit) * (2 ** -(i + 1)) for i, bit in enumerate(fractional_part))
+
+    decimal_number = integer_value + fractional_value
+
+    if sign_bit == IEEE754_HIDDEN_BIT:
+        decimal_number = -decimal_number
+
+    return decimal_number
+
+
 def float_to_ieee_754(num: float) -> str:
     if num == 0.0:
         return IEEE754_ZERO

@@ -56,10 +56,10 @@ class TestArithmetics(unittest.TestCase):
             multiply_direct(64, 2)  # 128 > 127
 
     def test_divide_direct(self):
-        self.assertAlmostEqual(divide_direct(10, 3), 3.31250, places=5)
-        self.assertAlmostEqual(divide_direct(-10, 3), -3.31250, places=5)
-        self.assertAlmostEqual(divide_direct(1, 2), 0.5, places=5)
-        self.assertAlmostEqual(divide_direct(127, 64),  1.96875, places=5)
+        self.assertAlmostEqual(binary_fixed_to_decimal(divide_direct(10, 3)), 3.3125)
+        self.assertAlmostEqual(binary_fixed_to_decimal(divide_direct(-10, 3)), -3.3125)
+        self.assertAlmostEqual(binary_fixed_to_decimal(divide_direct(1, 2)), 0.5)
+        self.assertAlmostEqual(binary_fixed_to_decimal(divide_direct(127, 64)),  1.96875)
         with self.assertRaises(ZeroDivisionError):
             divide_direct(10, 0)
 

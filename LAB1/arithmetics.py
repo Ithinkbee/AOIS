@@ -58,12 +58,12 @@ def multiply_direct(a: int, b: int, bits: int = BIT_LENGTH_DEFAULT) -> int:
     return -result_abs if sign else result_abs
 
 
-def divide_direct(a: int, b: int, precision: int = FRACTIONAL_PRECISION, bits: int = BIT_LENGTH_DEFAULT) -> float:
+def divide_direct(a: int, b: int, precision: int = FRACTIONAL_PRECISION, bits: int = BIT_LENGTH_DEFAULT) -> str:
     if b == 0:
-        raise ZeroDivisionError("Can't divide by zero")
+        raise ZeroDivisionError("Can't divide by zero!")
 
-    min_val = -(2 ** (bits - 1) - 1) if bits != 32 else -2**31  
-    max_val = (2 ** (bits - 1) - 1) if bits != 32 else 2**31 - 1
+    min_val = -(2 ** (bits - 1) - 1)
+    max_val = (2 ** (bits - 1) - 1)
     
     if not (min_val <= a <= max_val and min_val <= b <= max_val):
         raise ValueError(f"Numbers must fit in [{min_val}, {max_val}] for {bits}-bit representation")
@@ -73,23 +73,35 @@ def divide_direct(a: int, b: int, precision: int = FRACTIONAL_PRECISION, bits: i
     abs_a = abs(a)
     abs_b = abs(b)
 
-    integer_part = 0
-    current = abs_a
-    while current >= abs_b:
-        current -= abs_b
-        integer_part += 1
-    remainder = current
+    dividend_bin = bin(abs_a)[2:].zfill(bits)
+    divisor_bin = bin(abs_b)[2:].zfill(bits)
 
-    fractional_part = 0.0
-    for i in range(1, precision + 1):
-        current *= BINARY_BASE
-        bit = 1 if current >= abs_b else 0
-        fractional_part += bit * (BINARY_BASE ** -i)
-        if bit:
-            current -= abs_b
+    quotient = ""
+    remainder = 0
 
-    result = integer_part + fractional_part
-    return -result if sign else result
+    for bit in dividend_bin:
+        remainder = (remainder << 1) | int(bit)
+        if remainder >= abs_b:
+            quotient += '1'
+            remainder -= abs_b
+        else:
+            quotient += '0'
+
+    quotient += '.'
+    for _ in range(precision):
+        remainder <<= 1
+        if remainder >= abs_b:
+            quotient += '1'
+            remainder -= abs_b
+        else:
+            quotient += '0'
+
+    if sign:
+        quotient = '1' + quotient[1:]
+    else:
+        quotient = '0' + quotient[1:]
+
+    return quotient
 
 
 def add_ieee754_simple(a: float, b: float) -> str:
